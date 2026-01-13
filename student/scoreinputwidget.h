@@ -14,21 +14,24 @@ class ScoreInputWidget;
 
 class ScoreInputWidget : public QWidget
 {
-    Q_OBJECT // 必须添加，支持信号槽
+    Q_OBJECT
 
 public:
+
     explicit ScoreInputWidget(QWidget *parent = nullptr);
     ~ScoreInputWidget() override;
 
 private slots:
+
     void on_btnLoadStudents_clicked();
     void on_btnSaveScores_clicked();
 
 private:
+
     void loadClasses();
     void loadCourses();
 
-    Ui::ScoreInputWidget *ui; // UI指针仅声明
+    Ui::ScoreInputWidget *ui;
 };
 
 #endif // SCOREINPUTWIDGET_H
