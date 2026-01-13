@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ScoreInputWidget</class>
+ <widget class="QWidget" name="ScoreInputWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>432</width>
+    <height>313</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QComboBox" name="cbxClass"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cbxCourse"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnLoadStudents">
+       <property name="text">
+        <string>加载学生</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSaveScores">
+       <property name="text">
+        <string>批量保存</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableStudents">
+     <column>
+      <property name="text">
+       <string>学生 ID</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>学生姓名</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>成绩</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
