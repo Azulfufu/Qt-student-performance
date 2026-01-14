@@ -60,3 +60,59 @@ void ScoreStatWidget::initModel()
     ui->tableView->resizeColumnsToContents(); // 自适应列宽
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows); // 整行选中
 }
+
+// 加载筛选下拉框数据：班级+课程
+void ScoreStatWidget::loadFilterOptions()
+{
+    // ===== 加载班级列表 =====
+    QString sqlClass = "SELECT DISTINCT class_name FROM students ORDER BY class_name";
+    QSqlQuery queryClass = DBManager::getInstance().execQuery(sqlClass);
+
+    ui->cbxClass->clear();
+    ui->cbxClass->addItem("全部"); // 默认选项：显示所有班级
+    while (queryClass.next()) {
+        ui->cbxClass->addItem(queryClass.value(0).toString());
+    }
+
+    // ===== 加载课程列表 =====
+    QString sqlCourse = "SELECT DISTINCT course_name FROM courses ORDER BY course_name";
+    QSqlQuery queryCourse = DBManager::getInstance().execQuery(sqlCourse);
+
+    ui->cbxCourse->clear();
+    ui->cbxCourse->addItem("全部"); // 默认选项：显示所有课程
+    while (queryCourse.next()) {
+        ui->cbxCourse->addItem(queryCourse.value(0).toString());
+    }
+
+    // 空数据提示
+    if (ui->cbxClass->count() == 1) { // 只有"全部"选项
+        QMessageBox::information(this, "提示", "数据库中暂无班级数据！");
+    }
+    if (ui->cbxCourse->count() == 1) { // 只有"全部"选项
+        QMessageBox::information(this, "提示", "数据库中暂无课程数据！");
+    }
+}
+
+// 执行数据筛选：根据班级+课程筛选
+void ScoreStatWidget::filterData()
+{
+    QString className = ui->cbxClass->currentText();
+    QString courseName = ui->cbxCourse->currentText();
+
+    // 构建筛选条件（SQL WHERE语法）
+    QString filterStr;
+    if (className != "全部") {
+        filterStr += QString("class_name = '%1'").arg(className);
+    }
+    if (courseName != "全部") {
+        if (!filterStr.isEmpty()) filterStr += " AND ";
+        filterStr += QString("course_name = '%1'").arg(courseName);
+    }
+
+    // 设置筛选条件并刷新
+    m_proxyModel->setFilterFixedString(filterStr);
+    ui->tableView->resizeColumnsToContents(); // 重新自适应列宽
+
+    // 筛选后统计成绩
+    statScores();
+}
