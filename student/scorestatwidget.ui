@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>463</width>
-    <height>339</height>
+    <width>489</width>
+    <height>281</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,13 +15,17 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QComboBox" name="cbxClass"/>
      </item>
      <item>
       <widget class="QComboBox" name="cbxCourse"/>
      </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="labAvg">
        <property name="text">
