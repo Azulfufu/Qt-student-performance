@@ -16,7 +16,7 @@ LoginWidget::~LoginWidget()
     delete ui;
 }
 
-// 验证账号密码逻辑
+// 验证账号密码逻辑（纯明文对比）
 bool LoginWidget::verifyUser(QString username, QString password)
 {
     if (username.isEmpty() || password.isEmpty()) {
@@ -25,8 +25,7 @@ bool LoginWidget::verifyUser(QString username, QString password)
         return false;
     }
 
-    // 查询用户信息（加密后对比）
-    QString encryptPwd = DBManager::encryptPassword(password);
+    // 查询用户信息（明文密码对比）
     QString sql = QString("SELECT password, user_type FROM users WHERE username = '%1'").arg(username);
     QSqlQuery query = DBManager::getInstance().execQuery(sql);
 
@@ -36,7 +35,8 @@ bool LoginWidget::verifyUser(QString username, QString password)
         return false;
     }
 
-    if (query.value(0).toString() != encryptPwd) { // 密码错误
+    // 直接对比明文密码（无加密）
+    if (query.value(0).toString() != password) { // 密码错误
         ui->labError->setText("密码错误！");
         ui->labError->setVisible(true);
         return false;
