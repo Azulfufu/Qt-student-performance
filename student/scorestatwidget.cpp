@@ -116,3 +116,56 @@ void ScoreStatWidget::filterData()
     // 筛选后统计成绩
     statScores();
 }
+
+// 统计成绩：计算平均分、最高分、最低分
+void ScoreStatWidget::statScores()
+{
+    float avgScore = 0.0f;
+    float maxScore = 0.0f;
+    float minScore = 100.0f;
+    int validCount = 0; // 有效成绩数量
+
+    // 遍历筛选后的所有行
+    for (int row = 0; row < m_proxyModel->rowCount(); row++) {
+        // 获取成绩列数据（scores表的score字段是第3列）
+        QModelIndex scoreIndex = m_proxyModel->index(row, 3);
+        float score = m_proxyModel->data(scoreIndex).toFloat();
+
+        // 校验成绩有效性（0-100）
+        if (score < 0 || score > 100) continue;
+
+        // 累加计算
+        avgScore += score;
+        maxScore = qMax(maxScore, score);
+        minScore = qMin(minScore, score);
+        validCount++;
+    }
+
+    // 计算平均分（避免除以0）
+    avgScore = validCount > 0 ? avgScore / validCount : 0.0f;
+
+    // 更新统计标签（保留1位小数）
+    ui->labAvg->setText(QString("平均分：%1").arg(avgScore, 0, 'f', 1));
+    ui->labMax->setText(QString("最高分：%1").arg(maxScore, 0, 'f', 1));
+    ui->labMin->setText(QString("最低分：%1").arg(minScore, 0, 'f', 1));
+
+    // 无数据提示
+    if (validCount == 0) {
+        ui->labAvg->setText("平均分：--");
+        ui->labMax->setText("最高分：--");
+        ui->labMin->setText("最低分：--");
+        QMessageBox::information(this, "提示", "暂无符合条件的成绩数据！");
+    }
+}
+
+// 槽函数：班级下拉框变化时触发筛选
+void ScoreStatWidget::on_cbxClass_currentTextChanged(const QString &/*arg1*/)
+{
+    filterData();
+}
+
+// 槽函数：课程下拉框变化时触发筛选
+void ScoreStatWidget::on_cbxCourse_currentTextChanged(const QString &/*arg1*/)
+{
+    filterData();
+}
