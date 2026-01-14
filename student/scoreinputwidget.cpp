@@ -129,6 +129,8 @@ void ScoreInputWidget::on_btnSaveScores_clicked()
         return;
     }
 
+    // 遍历表格，逐个保存成绩
+    bool saveSuccess = true;
     for (int row = 0; row < ui->tableStudents->rowCount(); row++) {
         // 获取学生ID
         QTableWidgetItem *itemId = ui->tableStudents->item(row, 0);
@@ -141,6 +143,18 @@ void ScoreInputWidget::on_btnSaveScores_clicked()
         bool isNumber;
         float score = itemScore->text().toFloat(&isNumber);
 
+        // 校验：成绩是否为有效数字
+        if (!isNumber) {
+            QMessageBox::warning(this, "提示", QString("第%1行成绩不是有效数字！").arg(row + 1));
+            saveSuccess = false;
+            break;
+        }
+        // 校验：成绩范围
+        if (score < 0 || score > 100) {
+            QMessageBox::warning(this, "提示", QString("第%1行成绩超出0-100范围！").arg(row + 1));
+            saveSuccess = false;
+            break;
+        }
 
         // 构造SQL：REPLACE（存在则更新，不存在则插入）
         QString sql = QString("REPLACE INTO scores (student_id, course_id, score, exam_date) "
@@ -155,8 +169,17 @@ void ScoreInputWidget::on_btnSaveScores_clicked()
             QMessageBox::critical(this, "错误", QString("第%1行成绩保存失败！\n错误信息：%2")
                                                       .arg(row + 1)
                                                       .arg(DBManager::getInstance().getLastError()));
+            saveSuccess = false;
             break;
         }
     }
 
+    // 保存成功提示
+    if (saveSuccess) {
+        QMessageBox::information(this, "成功", "所有成绩已批量保存完成！");
+        // 可选：清空成绩列，方便下次录入
+        for (int row = 0; row < ui->tableStudents->rowCount(); row++) {
+            ui->tableStudents->item(row, 2)->setText("0");
+        }
+    }
 }
