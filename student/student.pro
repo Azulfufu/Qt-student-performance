@@ -25,9 +25,9 @@ HEADERS += \
 
 FORMS += \
     ScoreInputWidget.ui \
+    ScoreStatWidget.ui \
     loginwidget.ui \
     mainwindow.ui \
-    scorestatwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
