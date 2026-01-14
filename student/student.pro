@@ -14,17 +14,20 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     scoreinputwidget.cpp \
+    scorestatwidget.cpp
 
 HEADERS += \
     dbmanager.h \
     loginwidget.h \
     mainwindow.h \
     scoreinputwidget.h \
+    scorestatwidget.h
 
 FORMS += \
     ScoreInputWidget.ui \
     loginwidget.ui \
     mainwindow.ui \
+    scorestatwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
