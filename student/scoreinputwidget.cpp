@@ -109,3 +109,54 @@ void ScoreInputWidget::on_btnLoadStudents_clicked()
         QMessageBox::information(this, "提示", QString("【%1】暂无学生数据！").arg(className));
     }
 }
+
+void ScoreInputWidget::on_btnSaveScores_clicked()
+{
+    // 获取选中课程的ID（下拉框附加数据）
+    int courseId = ui->cbxCourse->currentData().toInt();
+    // 获取当前日期作为考试日期（格式：YYYY-MM-DD）
+    QString examDate = QDate::currentDate().toString("yyyy-MM-dd");
+
+    // 校验：是否选择了课程
+    if (courseId == 0) {
+        QMessageBox::warning(this, "提示", "请选择课程！");
+        return;
+    }
+
+    // 校验：表格是否有学生数据
+    if (ui->tableStudents->rowCount() == 0) {
+        QMessageBox::warning(this, "提示", "暂无学生成绩可保存，请先加载学生！");
+        return;
+    }
+
+    for (int row = 0; row < ui->tableStudents->rowCount(); row++) {
+        // 获取学生ID
+        QTableWidgetItem *itemId = ui->tableStudents->item(row, 0);
+        if (!itemId) continue; // 跳过空行
+        int studentId = itemId->text().toInt();
+
+        // 获取成绩并校验范围（0-100）
+        QTableWidgetItem *itemScore = ui->tableStudents->item(row, 2);
+        if (!itemScore) continue;
+        bool isNumber;
+        float score = itemScore->text().toFloat(&isNumber);
+
+
+        // 构造SQL：REPLACE（存在则更新，不存在则插入）
+        QString sql = QString("REPLACE INTO scores (student_id, course_id, score, exam_date) "
+                              "VALUES (%1, %2, %3, '%4')")
+                          .arg(studentId)
+                          .arg(courseId)
+                          .arg(score)
+                          .arg(examDate);
+
+        // 执行SQL并检查结果
+        if (!DBManager::getInstance().execNonQuery(sql)) {
+            QMessageBox::critical(this, "错误", QString("第%1行成绩保存失败！\n错误信息：%2")
+                                                      .arg(row + 1)
+                                                      .arg(DBManager::getInstance().getLastError()));
+            break;
+        }
+    }
+
+}
