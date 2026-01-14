@@ -1,5 +1,7 @@
 #include <QApplication>
 #include <QMessageBox>
+#include <QDir>
+#include <QFileInfo>
 #include "mainwindow.h"
 #include "loginwidget.h"
 #include "dbmanager.h"
@@ -8,8 +10,20 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    // 检查数据库文件是否存在
+    QString dbPath = "studentdb.db";
+    QFileInfo dbFile(dbPath);
+
+    if (!dbFile.exists()) {
+        QMessageBox::critical(nullptr, "错误",
+                              QString("数据库文件不存在！\n路径：%1\n当前目录：%2")
+                                  .arg(dbPath)
+                                  .arg(QDir::currentPath()));
+        return -1;
+    }
+
     // 1. 初始化数据库
-    if (!DBManager::getInstance().initDB("E:/Qt/lab/lab1.db")) {
+    if (!DBManager::getInstance().initDB(dbPath)) {
         QMessageBox::critical(nullptr, "错误", "数据库连接失败！");
         return -1;
     }

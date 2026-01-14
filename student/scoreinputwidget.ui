@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>373</width>
-    <height>247</height>
+    <width>480</width>
+    <height>298</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,12 +15,36 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QComboBox" name="cbxClass"/>
+      <widget class="QComboBox" name="cbStudent"/>
      </item>
      <item>
-      <widget class="QComboBox" name="cbxCourse"/>
+      <widget class="QLineEdit" name="leCourse"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="leScore"/>
+     </item>
+     <item>
+      <widget class="QDateEdit" name="dateEditExam"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="btnSingleSubmit">
+       <property name="text">
+        <string>提交</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnBatchSubmit">
+       <property name="text">
+        <string>批量提交</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btnLoadStudents">
@@ -30,32 +54,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btnSaveScores">
+      <widget class="QPushButton" name="btnLoadBatchStudents">
        <property name="text">
-        <string>批量保存</string>
+        <string>批量录入</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QTableWidget" name="tableStudents">
-     <column>
-      <property name="text">
-       <string>学生 ID</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>学生姓名</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>成绩</string>
-      </property>
-     </column>
-    </widget>
+    <widget class="QTableWidget" name="tableBatchScore"/>
    </item>
   </layout>
  </widget>
