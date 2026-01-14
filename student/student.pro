@@ -13,6 +13,7 @@ SOURCES += \
     loginwidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    scorechartwidget.cpp \
     scoreinputwidget.cpp \
     scorestatwidget.cpp
 
@@ -20,10 +21,12 @@ HEADERS += \
     dbmanager.h \
     loginwidget.h \
     mainwindow.h \
+    scorechartwidget.h \
     scoreinputwidget.h \
     scorestatwidget.h
 
 FORMS += \
+    ScoreChartWidget.ui \
     ScoreInputWidget.ui \
     ScoreStatWidget.ui \
     loginwidget.ui \
