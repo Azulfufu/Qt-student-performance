@@ -13,10 +13,10 @@
 #include <QDate>
 #include <QPalette>
 #include <QVBoxLayout>
-#include <QPainter>   // 新增：抗锯齿需要
-#include <QFont>      // 新增：字体配置需要
-#include <QPen>       // 新增：画笔配置需要
-#include <algorithm>  // 新增：日期排序需要
+#include <QPainter>
+#include <QFont>
+#include <QPen>
+#include <algorithm>
 #include "dbmanager.h"
 
 
@@ -35,17 +35,21 @@ public:
 private slots:
     void on_btnLoadCourses_clicked();
     void on_btnGenerateChart_clicked();
+    // 新增：加载学生列表到下拉框
+    void on_btnLoadStudents_clicked();
 
 private:
     void initChartView();
-    QList<QPair<QDate, qreal>> queryScoreData(const QString& courseName);
+    // 重构：支持按学生+科目查询成绩数据
+    QList<QPair<QDate, qreal>> queryScoreData(const QString& studentId, const QString& courseName);
+    // 新增：获取学生姓名（用于图表标题）
+    QString getStudentNameById(const QString& studentId);
 
     Ui::ScoreChartWidget *ui;
     QChart *m_chart;
     QLineSeries *m_series;
     QScatterSeries *m_scatterSeries;
     QChartView *m_chartView;
-    // 新增：保存坐标轴指针（用于动态调整范围）
     QDateTimeAxis *m_xAxis;
     QValueAxis *m_yAxis;
 };

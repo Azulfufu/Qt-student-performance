@@ -10,11 +10,13 @@
 class DBManager
 {
 public:
+
     // 单例模式，全局唯一数据库连接
     static DBManager& getInstance() {
         static DBManager instance;
         return instance;
     }
+    bool isDbOpen() const { return m_db.isOpen(); } // 直接返回m_db的状态
 
     // 初始化数据库连接
     bool initDB(const QString& dbPath);
@@ -34,6 +36,8 @@ public:
     // 新增：获取最后一次数据库错误信息（解决未定义报错）
     QString getLastError() const { return m_db.lastError().text(); }
 
+
+    QSqlDatabase m_db;
 private:
     // 私有构造/析构，禁止外部实例化
     DBManager() {}
@@ -43,7 +47,7 @@ private:
     DBManager(const DBManager&) = delete;
     DBManager& operator=(const DBManager&) = delete;
 
-    QSqlDatabase m_db;
+
 };
 
 #endif // DBMANAGER_H

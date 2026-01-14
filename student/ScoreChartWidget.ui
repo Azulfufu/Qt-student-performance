@@ -20,6 +20,16 @@
       <widget class="QComboBox" name="cbCourse"/>
      </item>
      <item>
+      <widget class="QComboBox" name="cbStudent"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnLoadStudents">
+       <property name="text">
+        <string>加载学生</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="btnLoadCourses">
        <property name="text">
         <string>	加载科目</string>

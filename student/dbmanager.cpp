@@ -39,3 +39,5 @@ QString DBManager::encryptPassword(QString password)
     byteArray = QCryptographicHash::hash(byteArray, QCryptographicHash::Md5);
     return byteArray.toHex();
 }
+
+
