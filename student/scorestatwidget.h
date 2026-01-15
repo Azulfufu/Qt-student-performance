@@ -22,6 +22,8 @@ private slots:
     void on_cbxClass_currentTextChanged(const QString &arg1);
     // 课程下拉框变化
     void on_cbxCourse_currentTextChanged(const QString &arg1);
+    // 新增：生成Excel报表
+    void on_btnExportExcel_clicked();
 
 private:
     // 初始化Model/View架构
@@ -36,10 +38,14 @@ private:
     void loadClassList();
     // 新增：加载科目列表到下拉框
     void loadCourseList();
+    // 新增：生成Excel报表
+    bool exportToExcel(const QString &filePath);
 
     Ui::ScoreStatWidget *ui;
     QSqlRelationalTableModel *m_relModel; // 关联模型
     QSortFilterProxyModel *m_proxyModel;  // 代理模型（筛选用）
+    QStringList getTableHeaders() const;
+    QVector<QStringList> getFilteredData() const;
 };
 
 #endif // SCORESTATWIDGET_H
